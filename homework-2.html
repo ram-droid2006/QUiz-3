@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-homework="2">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+  <title>BRCDC | Homework Quiz #2</title>
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="homework.css">
+  <script src="icons.js" defer></script><script src="diagrams.js" defer></script>
+  <script src="vendor/pdf-lib.min.js" defer></script><script src="homework-report.js" defer></script><script src="homework-app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#question-title">Skip to question</a>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">B</span><div><strong>BRCDC</strong><span>Homework Quiz #2</span></div></div>
+    <div class="toolbar"><label class="size-label">Text size <select id="text-size"><option value="18">Standard</option><option value="21">Large</option><option value="24">Extra large</option></select></label>
+      <button id="theme-button" class="icon-button" title="Turn on dark mode" aria-label="Turn on dark mode"><i data-icon="Moon"></i></button>
+      <button id="instructions-button" class="icon-button" title="Homework instructions" aria-label="Homework instructions"><i data-icon="Info"></i></button>
+    </div>
+  </header>
+  <div id="connection" class="connection" role="status" hidden></div>
+  <noscript><p class="connection">Enable JavaScript to open the homework quiz.</p></noscript>
+  <section id="start-screen" class="start-screen" aria-labelledby="start-title">
+    <span class="eyebrow">Form B practice</span><h1 id="start-title">Homework Quiz #2</h1><p class="lead">33 questions. Math and English.</p>
+    <dl class="exam-facts"><div><dt>Math</dt><dd>17 questions</dd></div><div><dt>English</dt><dd>16 questions</dd></div><div><dt>Active time</dt><dd id="duration-label">Loading...</dd></div></dl>
+    <p>Work independently with scratch paper. No calculator, notes, search, AI, or outside help.</p>
+    <p>Lock each answer when you are ready. Submitted answers cannot be changed. Use Pause for a break; your question will be hidden and your timer will stop. Closing the page without pausing does not stop the clock.</p>
+    <form id="start-form"><label for="student-name">Student name</label><input id="student-name" name="name" autocomplete="name" maxlength="100" required><button id="start-button" class="primary" disabled>Start homework <i data-icon="ArrowRight"></i></button></form>
+    <p class="muted">Complete this attempt in the same browser and device. Tell your teacher about timing accommodations before starting.</p>
+  </section>
+  <section id="exam-screen" hidden>
+    <div class="exam-status"><div><span id="answered"></span><span id="save-status" role="status"></span></div><div class="timer"><i data-icon="Clock3"></i><span id="time" role="timer" aria-label="Time remaining"></span><button id="pause-button" class="icon-button" title="Pause homework" aria-label="Pause homework"><i data-icon="Pause"></i></button></div></div>
+    <progress id="progress" max="33" value="0" aria-label="Questions submitted"></progress>
+    <div id="time-warning" class="time-warning" role="alert" hidden></div>
+    <div class="exam-layout"><aside><details id="navigation" open><summary>Homework progress</summary><div class="progress-groups"><h2>Math <span id="math-count"></span></h2><div id="math-grid" class="question-grid"></div><h2>English <span id="english-count"></span></h2><div id="english-grid" class="question-grid"></div></div><p class="muted">Submitted answers are locked.</p></details></aside>
+      <main id="workspace"><div class="section-bar"><span id="subject"></span><span id="question-number"></span></div><div id="question-layout">
+        <section id="passage-panel" aria-labelledby="passage-title" tabindex="0" hidden><div class="reading-tools"><span class="eyebrow">Reading passage</span><a href="#question-title">Go to question</a></div><h2 id="passage-title"></h2><div id="passage"></div><p id="passage-credit" class="muted"></p></section>
+        <section class="question-panel" aria-labelledby="question-title"><div class="question-tools"><span id="item-label"></span><button id="flag-button" class="icon-button" title="Mark for review after finishing" aria-label="Mark for review after finishing" aria-pressed="false"><i data-icon="Flag"></i></button></div><h1 id="question-title" tabindex="-1"></h1><a id="return-to-passage" href="#passage-panel" hidden>Read passage</a><div id="diagram"></div><fieldset id="choices"><legend class="sr-only">Choose one answer</legend></fieldset><div class="question-footer"><span class="muted">Your answer is final when submitted.</span><button id="next" class="primary" disabled>Lock answer &amp; continue <i data-icon="ArrowRight"></i></button></div></section>
+      </div></main>
+    </div>
+  </section>
+  <section id="paused-screen" class="start-screen" hidden aria-labelledby="paused-title"><span class="eyebrow">Break time</span><h1 id="paused-title" tabindex="-1">Homework paused</h1><p>Your answers are saved. Your timer is stopped.</p><p id="pause-summary"></p><button id="resume-button" class="primary"><i data-icon="Play"></i>Resume homework</button></section>
+  <section id="results-screen" class="results-screen" hidden aria-labelledby="results-title">
+    <div class="result-heading"><div><span class="eyebrow">Finished work</span><h1 id="results-title" tabindex="-1">Homework Quiz #2 results</h1><p id="result-name"></p></div><div class="report-actions"><button id="download-button" class="primary"><i data-icon="Download"></i>Download results PDF</button><button id="print-button" class="secondary"><i data-icon="Printer"></i>Print</button></div></div>
+    <p id="completion-message" role="status"></p>
+    <div class="score-band"><div><span>Math</span><strong id="math-score"></strong></div><div><span>English</span><strong id="english-score"></strong></div><div><span>Total</span><strong id="total-score"></strong></div></div>
+    <dl id="metrics" class="metrics"></dl><p class="muted">Practice scores and difficulty labels are not official SHSAT scores or calibrated difficulty estimates.</p>
+    <p class="saved-result">Download your results PDF, then attach it to your Google Classroom assignment and turn it in. This quiz does not submit to Classroom automatically.</p>
+    <h2>Skill breakdown</h2><div id="skill-summary"></div>
+    <div class="results-toolbar"><h2>All 33 questions</h2><label>Show <select id="result-filter"><option value="all">All questions</option><option value="incorrect">Incorrect / unanswered</option><option value="flagged">Marked for review</option></select></label></div>
+    <div id="report-list"></div>
+  </section>
+  <dialog id="instructions-dialog" aria-labelledby="instructions-title"><div class="dialog-top"><h2 id="instructions-title">Homework instructions</h2><button id="close-instructions" class="icon-button" title="Close instructions" aria-label="Close instructions"><i data-icon="X"></i></button></div><p>Complete 17 Math and 16 English questions independently. Use scratch paper, but no calculator or outside help.</p><p>Correct answers target a harder next question; incorrect answers target an easier one. Selection uses the closest available difficulty among remaining questions in the current group. Everyone receives the same 33 questions, with shuffled choices.</p><p>Locking an answer is final. Marking it saves it for review after finishing. Pause stops the timer and hides the question; resume in the same browser. Closing the page without pausing does not stop the clock.</p><p>Warnings appear with 10, 5, and 1 minute left. At zero, the quiz ends. The results PDF includes all 33 questions, full passages, choices, answers, explanations, and your work metrics.</p></dialog>
+</body></html>
