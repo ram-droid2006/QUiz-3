@@ -1,0 +1,9 @@
+{
+  "name": "brcdc-adaptive-diagnostic",
+  "private": true,
+  "version": "3.0.0",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

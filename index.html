@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+  <title>BRCDC | Adaptive SHSAT Diagnostic</title>
+  <link rel="stylesheet" href="styles.css"><script src="icons.js" defer></script><script src="diagrams.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#question-title">Skip to question</a>
+  <div class="preview-notice">BRCDC practice assessment <span>Results are saved with this exam. Google Classroom submission is not connected.</span></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">B</span><div><strong>BRCDC</strong><span>Adaptive SHSAT Diagnostic</span></div></div>
+    <div class="toolbar">
+      <label class="size-label">Text size <select id="text-size"><option value="18">Standard</option><option value="21">Large</option><option value="24">Extra large</option></select></label>
+      <button id="theme-button" class="icon-button" aria-label="Turn on dark mode" aria-pressed="false" title="Turn on dark mode"><i data-icon="Moon"></i></button>
+      <button id="instructions-button" class="icon-button" aria-label="Exam instructions" title="Exam instructions"><i data-icon="Info"></i></button>
+    </div>
+  </header>
+  <div id="connection" class="connection" role="status" hidden></div>
+  <section id="start-screen" class="start-screen" aria-labelledby="start-title">
+    <span class="eyebrow">Math + English</span><h1 id="start-title">Your starting point.</h1>
+    <p class="lead">50 questions. One step at a time.</p>
+    <dl class="exam-facts"><div><dt>Math</dt><dd>25 questions</dd></div><div><dt>English</dt><dd>25 questions</dd></div><div><dt>Time</dt><dd id="duration-label">Loading...</dd></div></dl>
+    <p>Use scratch paper. No calculator, search engine, AI tool, or outside help. Your next question adjusts to your previous answer.</p>
+    <p>Choose an answer, then select <strong>Lock answer &amp; continue</strong>. Submitted answers cannot be reopened or changed. The clock continues if you close the page, and the exam ends automatically when time runs out.</p>
+    <form id="start-form"><label for="student-name">Student name</label><input id="student-name" name="name" autocomplete="name" maxlength="100" required><button id="start-button" class="primary" type="submit" disabled>Start exam <i data-icon="ArrowRight"></i></button></form>
+    <p class="muted">Tell your teacher about timing accommodations before starting.</p>
+  </section>
+  <section id="exam-screen" hidden>
+    <div class="exam-status"><div><span id="answered">0 of 50 locked</span><span id="save-status" role="status">Ready</span></div><div class="timer"><i data-icon="Clock3"></i><span id="time" role="timer" aria-label="Time remaining">90:00</span></div></div>
+    <progress id="progress" max="50" value="0" aria-label="Questions submitted"></progress>
+    <div id="time-warning" class="time-warning" role="alert" hidden></div>
+    <div class="exam-layout">
+      <aside><details id="navigation" open><summary>Exam progress</summary><div class="progress-groups"><h2>Math <span id="math-count">0 / 25</span></h2><div id="math-grid" class="question-grid"></div><h2>English <span id="english-count">0 / 25</span></h2><div id="english-grid" class="question-grid"></div></div><p class="muted">Submitted questions are locked.</p><p id="flag-count" class="muted">Marked questions appear in your finished report.</p></details></aside>
+      <main id="workspace"><div class="section-bar"><span id="subject">Math</span><span id="question-number">Question 1 of 50</span></div><div id="question-layout">
+        <section id="passage-panel" aria-labelledby="passage-title" tabindex="0" hidden><div class="reading-tools"><span class="eyebrow">Reading passage</span><a href="#question-title">Go to question</a></div><h2 id="passage-title"></h2><div id="passage"></div></section>
+        <section class="question-panel" aria-labelledby="question-title"><div class="question-tools"><span id="item-label"></span><button id="flag-button" class="icon-button" aria-label="Mark for review after finishing" title="Mark for review after finishing" aria-pressed="false"><i data-icon="Flag"></i></button></div><h1 id="question-title" tabindex="-1"></h1><a id="return-to-passage" href="#passage-panel" hidden>Read passage</a><div id="diagram"></div><fieldset id="choices"><legend class="sr-only">Choose one answer</legend></fieldset><div class="question-footer"><span class="muted">Your answer is final when submitted.</span><button id="next" class="primary" disabled>Lock answer &amp; continue <i data-icon="ArrowRight"></i></button></div></section>
+      </div></main>
+    </div>
+  </section>
+  <section id="results-screen" class="results-screen" aria-labelledby="results-title" hidden>
+    <div class="result-heading"><div><span class="eyebrow">Finished work</span><h1 id="results-title" tabindex="-1">Your diagnostic results</h1><p id="result-name"></p></div><button id="print-button" class="secondary"><i data-icon="Printer"></i>Print / save PDF</button></div>
+    <p id="completion-message" role="status"></p><div class="score-band"><div><span>Math</span><strong id="math-score"></strong></div><div><span>English</span><strong id="english-score"></strong></div><div><span>Total</span><strong id="total-score"></strong></div></div>
+    <p class="muted">These are raw diagnostic scores from your adaptive path, not an official SHSAT score. Different paths are not directly comparable.</p>
+    <p class="saved-result">Your finished work is saved. Return to this page in the same browser to view it again. Use Print / save PDF for a separate copy.</p>
+    <h2>Skills to work on</h2><div id="skill-summary"></div>
+    <div class="results-toolbar"><h2>Your answers</h2><label>Show <select id="result-filter"><option value="all">All answers</option><option value="incorrect">Incorrect answers</option><option value="flagged">Marked for review</option></select></label></div>
+    <div id="report-list"></div><div id="unfinished-report"></div>
+  </section>
+  <dialog id="instructions-dialog" aria-labelledby="instructions-title"><div class="dialog-top"><h2 id="instructions-title">Exam instructions</h2><button data-close="instructions-dialog" class="icon-button" aria-label="Close instructions" title="Close"><i data-icon="X"></i></button></div><p>Complete 25 Math and 25 English questions independently. Use scratch paper, but no calculator or outside help.</p><p>Each subject begins at medium difficulty. A correct answer moves the next question up one level; an incorrect answer moves it down, within the easy-to-hard range.</p><p>Only your current question is available. Locking an answer is final. Marking a question saves it for review after the exam; it does not let you return during the exam.</p><p>The timer cannot be paused. Warnings appear with 10, 5, and 1 minute remaining. At zero, further work stops and your submitted answers are scored.</p></dialog>
+</body>
+</html>

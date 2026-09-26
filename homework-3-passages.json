@@ -1,0 +1,29 @@
+{
+  "morse": {
+    "title": "Invention of the Telegraph",
+    "paragraphs": [
+      "Background: Samuel Morse developed an electric telegraph that sent coded short and long pulses. Congress funded his Washington-to-Baltimore line in 1844.",
+      "1. Before Morse sent his celebrated message in 1844, people communicated over long distances with visual signals such as flags and lights. An observer on one hill read a signal and relayed it to the next station. The young United States even offered a $30,000 prize for a visual signaling system along its Atlantic coast. When lawmakers called it a telegraph, they did not foresee an electrical system.",
+      "2. During an 1832 voyage, a discussion of Faraday's electromagnet led Morse to imagine coded messages traveling along a wire. He remembered enjoying lectures about electricity at Yale, but soon discovered that his knowledge was too limited to build the device. After trying batteries, magnets, and wires, he asked his colleague Leonard Gale for help.",
+      "3. Gale knew the work of Joseph Henry, who had rung a bell at a distance by opening and closing an electric circuit. Henry had also described ideas relevant to an electric telegraph. Gale showed Morse flaws in his design and how Henry's relay system could strengthen a fading signal. Henry's experiments, Gale's advice, and the work of technician Alfred Vail all contributed to Morse's progress.",
+      "4. By late 1837, Morse was confident enough to seek federal money. He demonstrated his system in New York and Washington the following year.",
+      "5. A financial crisis and long depression delayed his request. During the wait, Morse traveled to Europe to seek patents and study competing systems.",
+      "6. In 1843, with the economy recovering, Morse again requested $30,000 for a 40-mile line between Washington and Baltimore. The House and Senate approved the funding, and President Tyler signed the bill. Morse first planned to place the wire underground.",
+      "7. Engineer Ezra Cornell laid the pipe, but a partner had bought wire with faulty insulation. With little time left, Cornell proposed hanging the wire aboveground on trees and poles. Morse agreed. The line was finished in time for a successful demonstration between Washington and Baltimore.",
+      "8. As overhead wires spread along the Atlantic coast, operators learned to interpret Morse code as messages arrived instead of relying on a printed strip. Lines later reached westward and eventually linked Europe and North America.",
+      "Chart: U.S. telegraph messages transmitted, in millions (approximate): 1870: 12; 1880: 30; 1890: 55; 1900: 67; 1910: 75; 1920: 155. The chart rises sharply by 1920.",
+      "Network map: By 1902, the British All-Red Line connected places in North America, Europe, Africa, India, Australia, and New Zealand. The first transatlantic electric telegraph message was sent in 1858."
+    ],
+    "credit": "Adapted from 'Invention of the Telegraph,' Library of Congress (public domain), in supplied 2024-2025 SHSAT Form B, pages 183-185. Chart source: U.S. Bureau of the Census, Historical Statistics of the United States."
+  },
+  "snow": {
+    "title": "Snowy Mountains",
+    "paragraphs": [
+      "By John Gould Fletcher (public domain). Line numbers are shown for reference.",
+      "1 Higher and still more high, / 2 Palaces made for cloud, / 3 Above the dingy city-roofs / 4 Blue-white like angels with broad wings, / 5 Pillars of the sky at rest / 6 The mountains from the great plateau / 7 Uprise.",
+      "8 But the world heeds them not; / 9 They have been here now for too long a time. / 10 The world makes war on them, / 11 Tunnels their granite cliffs, / 12 Splits down their shining sides, / 13 Plasters their cliffs with soap-advertisements, / 14 Destroys the lonely fragments of their peace.",
+      "15 Vaster and still more vast, / 16 Peak after peak, pile after pile, / 17 Wilderness still untamed, / 18 To which the future is as was the past / 19 Barrier spread by Gods, / 20 Sunning their shining foreheads, / 21 Barrier broken down by those who do not need / 22 The joy of time-resisting storm-worn stone, / 23 The mountains swing along / 24 The south horizon of the sky; / 25 Welcoming with wide floors of blue-green ice / 26 The mists that dance and drive before the sun."
+    ],
+    "credit": "John Gould Fletcher, 'Snowy Mountains,' public domain; supplied 2024-2025 SHSAT Form B, page 189."
+  }
+}
