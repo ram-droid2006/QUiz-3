@@ -7,6 +7,10 @@ function shuffle(items){
   return out;
 }
 function prepare(state,now){
+  if(bank.mode==='fixed'){
+    state.current={id:bank.questions[state.answers.length].id,startedAt:now};
+    return;
+  }
   const used=new Set(state.answers.map(a=>a.id));
   const group=bank.groups.find(g=>bank.questions.some(q=>q.group===g&&!used.has(q.id)));
   if(group!==state.group){state.level=1;state.group=group;}
@@ -96,4 +100,4 @@ function publicState(state,now=Date.now()){
 }
 return {bank,startExam,submit,setPaused,expire,publicState,report};
 }
-module.exports={...createHomeworkEngine(require('./homework-bank.js')),createHomeworkEngine};
+module.exports={createHomeworkEngine};

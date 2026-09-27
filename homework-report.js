@@ -1,6 +1,8 @@
 /* Self-contained PDF export; no browser association for HTML files is needed. */
 window.homeworkPDF=async function(report){
   const quizNumber=Number(document.documentElement.dataset.homework||1);
+  const fullExam=document.documentElement.dataset.exam==='full';
+  const label=fullExam?'Full-Length Practice Exam':'Homework Quiz #'+quizNumber;
   const mathQuestions=report.counts.Math,englishQuestions=report.counts.English,totalQuestions=report.rows.length;
   const {PDFDocument,StandardFonts,rgb}=window.PDFLib;
   const pdf=await PDFDocument.create(),font=await pdf.embedFont(StandardFonts.Helvetica),bold=await pdf.embedFont(StandardFonts.HelveticaBold);
@@ -36,7 +38,7 @@ window.homeworkPDF=async function(report){
     if(part.length)chunks.push(part);return chunks;
   }
   function pageHeader(title,subtitle){
-    const page=pdf.addPage([612,792]);write(page,'BRCDC | Homework Quiz #'+quizNumber,36,754,12,true,green);
+    const page=pdf.addPage([612,792]);write(page,'BRCDC | '+label,36,754,12,true,green);
     write(page,title,36,729,14,true);
     drawRows(page,lines(subtitle,540,9),36,708);return page;
   }
@@ -112,7 +114,7 @@ window.homeworkPDF=async function(report){
     });
   }
   const pages=pdf.getPages();
-  pages.forEach((page,i)=>write(page,'BRCDC Homework #'+quizNumber+' | '+(i+1)+' / '+pages.length,36,28,8,false,muted));
-  pdf.setTitle('BRCDC Homework Quiz #'+quizNumber+' - '+safe(report.name));pdf.setAuthor('BRCDC SHSAT Prep');
+  pages.forEach((page,i)=>write(page,'BRCDC '+label+' | '+(i+1)+' / '+pages.length,36,28,8,false,muted));
+  pdf.setTitle('BRCDC '+label+' - '+safe(report.name));pdf.setAuthor('BRCDC SHSAT Prep');
   return pdf.save();
 };

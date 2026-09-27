@@ -1,9 +1,10 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id),icon=name=>window.EXAM_ICONS[name]||'';
+  const fullExam=document.documentElement.dataset.exam==='full';
   const quizNumber=Number(document.documentElement.dataset.homework||1);
-  const quizPath='/homework-'+quizNumber+'/';
-  const totalQuestions=quizNumber===3?34:33,mathQuestions=17,englishQuestions=totalQuestions-mathQuestions;
+  const quizPath=fullExam?'/full-exam/':'/homework-'+quizNumber+'/';
+  const totalQuestions=fullExam?114:quizNumber===3?34:33,mathQuestions=fullExam?57:17,englishQuestions=totalQuestions-mathQuestions;
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const format=ms=>{const s=Math.ceil(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
   let state=null,choice=null,flagged=false,pending=null,busy=false,refreshing=false,anchor=0,wallAnchor=0,lastQuestion=null,warning='';
@@ -19,7 +20,7 @@
     try{localStorage.setItem('brcdc-appearance',JSON.stringify(prefs));}catch{}
   }
   function message(value){$('connection').textContent=value;$('connection').hidden=!value;}
-  function draftKey(){return 'brcdc-homework-'+quizNumber+'-draft-'+state.id;}
+  function draftKey(){return 'brcdc-'+(fullExam?'full-exam':'homework-'+quizNumber)+'-draft-'+state.id;}
   function saveDraft(){
     if(!state?.current)return;
     try{localStorage.setItem(draftKey(),JSON.stringify({id:state.current.id,choice,flagged,pending}));}catch{message('Unsubmitted selections cannot be saved in this browser. Submitted answers are saved on the server.');}
@@ -45,7 +46,7 @@
   function controls(){
     const locked=state?.status!=='active'||remaining()<=0||busy;
     document.querySelectorAll('#choices input').forEach(el=>el.disabled=locked||Boolean(pending));
-    $('flag-button').disabled=locked||Boolean(pending);$('pause-button').disabled=locked||Boolean(pending);
+    $('flag-button').disabled=locked||Boolean(pending);$('pause-button').disabled=fullExam||locked||Boolean(pending);
     $('next').disabled=locked||choice===null;
     $('next').innerHTML=busy?'Saving...':pending?'Retry saving answer':(state?.answered===totalQuestions-1?'Lock answer & finish':'Lock answer & continue')+icon(state?.answered===totalQuestions-1?'Check':'ArrowRight');
     $('resume-button').disabled=busy;
@@ -94,7 +95,7 @@
       const el=document.createElement('span');el.className='progress-cell'+(i<state.answered?' answered':'');el.textContent=i+1;
       if(i===state.answered)el.setAttribute('aria-current','step');
       el.setAttribute('aria-label','Question '+(i+1)+', '+(i<state.answered?'locked':i===state.answered?'current':'not reached'));
-      $(i<mathQuestions?'math-grid':'english-grid').append(el);
+      $(fullExam?(i<englishQuestions?'english-grid':'math-grid'):(i<mathQuestions?'math-grid':'english-grid')).append(el);
     }
   }
   function renderQuestion(){
@@ -168,23 +169,37 @@
     $('download-button').disabled=true;message('Preparing all '+totalQuestions+' questions and passages...');
     try{
       const bytes=await window.homeworkPDF(state.report),url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
-      const a=document.createElement('a');a.href=url;a.download='BRCDC-Homework-'+quizNumber+'-'+state.name.replace(/[^a-zA-Z0-9_-]/g,'-')+'-results.pdf';
+      const a=document.createElement('a');a.href=url;a.download='BRCDC-'+(fullExam?'Full-Exam':'Homework-'+quizNumber)+'-'+state.name.replace(/[^a-zA-Z0-9_-]/g,'-')+'-results.pdf';
       document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);message('');
     }catch{message('The PDF could not be created. Use Print and choose Save as PDF to keep all '+totalQuestions+' questions.');}
     finally{$('download-button').disabled=false;}
   });
   addEventListener('online',refresh);
+  if(fullExam){
+    $('pause-button').hidden=true;
+    const notes=$('scratchpad');
+    function notesKey(){return state?.id?'brcdc-full-exam-notes-'+state.id:'';}
+    function loadNotes(){try{notes.value=localStorage.getItem(notesKey())||'';}catch{notes.value='';}}
+    notes.addEventListener('input',()=>{if(state?.id)try{localStorage.setItem(notesKey(),notes.value);}catch{message('Scratchpad notes could not be saved in this browser.');}});
+    $('scratchpad-toggle').addEventListener('click',()=>{$('scratchpad-panel').hidden=!$('scratchpad-panel').hidden;if(!$('scratchpad-panel').hidden){loadNotes();notes.focus();}});
+    $('fullscreen-button').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{message('Fullscreen is not available in this browser.');}});
+    document.addEventListener('keydown',event=>{
+      if(state?.status!=='active'||event.altKey||event.metaKey||event.ctrlKey||/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||''))return;
+      const index=Number(event.key)-1;
+      if(index>=0&&index<4){const input=$('choices').querySelectorAll('input')[index];if(input&&!input.disabled){input.checked=true;input.dispatchEvent(new Event('change'));event.preventDefault();}}
+    });
+  }
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();refresh();}});
   appearance();if(matchMedia('(max-width:700px)').matches)$('navigation').open=false;
   if(location.protocol==='file:'){
     $('duration-label').textContent='Live quiz';
     $('start-screen').hidden=false;
     const link=document.createElement('a');link.href='http://127.0.0.1:4318'+quizPath;
-    link.className='primary server-link';link.textContent='Open Homework Quiz #'+quizNumber;
+    link.className='primary server-link';link.textContent=fullExam?'Open full-length exam':'Open Homework Quiz #'+quizNumber;
     $('start-form').replaceWith(link);
     message('Open the live quiz below to start or resume your saved homework.');
     return;
   }
-  api('config').then(c=>{$('duration-label').textContent=c.minutes+' minutes';$('start-button').disabled=false;}).catch(()=>message('Cannot reach the homework server.'));
+  api('config').then(c=>{$('duration-label').textContent=c.minutes+' minutes';$('start-button').disabled=false;}).catch(()=>message('Cannot reach the exam server.'));
   refresh();setInterval(tick,250);setInterval(()=>{if(state?.status==='active'||state?.status==='paused')refresh();},10000);
 })();
